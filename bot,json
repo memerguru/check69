@@ -1,0 +1,18 @@
+from telegram.ext import Updater, MessageHandler, Filters
+
+# This function will be called whenever a new message is received
+def handle_message(update, context):
+    message = update.message
+    if message.text:
+        keywords = ['keyword1', 'keyword2']  # Add your desired keywords here
+        if any(keyword in message.text.lower() for keyword in keywords):
+            # Forward the message to the desired group chat
+            context.bot.forward_message(chat_id='@your_group_chat_id', from_chat_id=message.chat_id, message_id=message.message_id)
+
+# Set up the bot and register the message handler
+updater = Updater(token='your_bot_token', use_context=True)
+dispatcher = updater.dispatcher
+dispatcher.add_handler(MessageHandler(Filters.text, handle_message))
+
+# Start the bot
+updater.start_polling()
