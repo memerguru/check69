@@ -1,0 +1,33 @@
+<?php
+$botToken = 'YOUR_BOT_TOKEN';
+$telegramApiUrl = 'https://api.telegram.org/bot' . $botToken . '/';
+$update = json_decode(file_get_contents('php://input'), true);
+$message = $update['message'];
+$chatId = $message['chat']['id'];
+$text = $message['text'];
+
+<?php
+// ...
+if (strpos($text, '/search') === 0) {
+    $searchQuery = trim(substr($text, 7)); // Extract the search query from the message text
+    // Implement your filtering logic here based on the search query
+    // Send the filtered posts to the desired group using the Telegram Bot API
+}
+
+<?php
+// ...
+if (strpos($text, '/search') === 0) {
+    $searchQuery = trim(substr($text, 7)); // Extract the search query from the message text
+    // Implement your filtering logic here based on the search query
+    
+    // Assuming you have the filtered message ID in the variable $filteredMessageId
+    $forwardParams = array(
+        'chat_id' => $groupId, // Replace with the desired group's chat ID
+        'from_chat_id' => $channelId, // Replace with your channel's chat ID
+        'message_id' => $filteredMessageId
+    );
+    
+    // Forward the filtered message to the group
+    file_get_contents($telegramApiUrl . 'forwardMessage?' . http_build_query($forwardParams));
+}
+
